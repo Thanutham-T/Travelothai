@@ -1,8 +1,10 @@
 from datetime import datetime
-from typing import Optional, List
+from typing import Optional, List, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship
 
-from travelothai.schemas.hotel_schema import Hotel
+if TYPE_CHECKING:
+    from .hotel_model import Hotel
+    from .ticket_model import TicketUsageRule
 
 # ProvinceCategory model
 class ProvinceCategoryBase(SQLModel):
@@ -15,6 +17,7 @@ class ProvinceCategory(ProvinceCategoryBase, table=True):
 
     # Relationship
     provinces: List["Province"] = Relationship(back_populates="category")
+    usage_rules: List["TicketUsageRule"] = Relationship(back_populates="province_category")
 
 
 # Province model
@@ -29,4 +32,4 @@ class Province(ProvinceBase, table=True):
 
     # Relationship
     hotels: List["Hotel"] = Relationship(back_populates="province")
-    category: Optional[ProvinceCategory] = Relationship(back_populates="provinces")
+    category: Optional["ProvinceCategory"] = Relationship(back_populates="provinces")

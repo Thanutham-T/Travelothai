@@ -1,9 +1,9 @@
 from datetime import datetime
-from typing import Optional, List
+from typing import Optional, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship
 
-from travelothai.models.province_model import Province
-
+if TYPE_CHECKING:
+    from .province_model import Province
 
 # Hotel model
 class HotelBase(SQLModel):
@@ -17,4 +17,4 @@ class Hotel(HotelBase, table=True):
     updated_at: datetime = Field(default_factory=datetime.now)
 
     # Relationship
-    province: Optional[Province] = Relationship(back_populates="hotels")
+    province: Optional["Province"] = Relationship(back_populates="hotels")
