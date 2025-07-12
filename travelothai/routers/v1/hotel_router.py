@@ -26,10 +26,7 @@ def get_hotel_service(session: AsyncSession = Depends(get_session)) -> HotelServ
         response_model=list[hotel_schema.Hotel]
     )
 async def read_hotels(hotel_service: HotelServiceInterface = Depends(get_hotel_service)) -> List[hotel_schema.Hotel]:
-    hotels = await hotel_service.list_hotels()
-    if not hotels:
-        raise HTTPException(status_code=404, detail="No hotels found")
-    return hotels
+    return await hotel_service.list_hotels()
 
 @router.get(
         "/{hotel_id}",
@@ -38,10 +35,7 @@ async def read_hotels(hotel_service: HotelServiceInterface = Depends(get_hotel_s
         response_model=hotel_schema.Hotel
     )
 async def read_hotel(hotel_id: int, hotel_service: HotelServiceInterface = Depends(get_hotel_service)) -> Optional[hotel_schema.Hotel]:
-    hotel = await hotel_service.get_hotel(hotel_id)
-    if hotel is None:
-        raise HTTPException(status_code=404, detail="Hotel not found")
-    return hotel
+    return await hotel_service.get_hotel(hotel_id)
 
 @router.post(
         "/",
@@ -59,10 +53,7 @@ async def create_hotel(hotel: hotel_schema.HotelCreate, hotel_service: HotelServ
         response_model=hotel_schema.Hotel
     )
 async def update_hotel(hotel_id: int, hotel: hotel_schema.HotelUpdate, hotel_service: HotelServiceInterface = Depends(get_hotel_service)) -> Optional[hotel_schema.Hotel]:
-    updated_hotel = await hotel_service.update_hotel(hotel_id, hotel)
-    if updated_hotel is None:
-        raise HTTPException(status_code=404, detail="Hotel not found")
-    return updated_hotel
+    return await hotel_service.update_hotel(hotel_id, hotel)
 
 @router.delete(
         "/{hotel_id}",
@@ -71,8 +62,5 @@ async def update_hotel(hotel_id: int, hotel: hotel_schema.HotelUpdate, hotel_ser
         response_model=None
     )
 async def delete_hotel(hotel_id: int, hotel_service: HotelServiceInterface = Depends(get_hotel_service)) -> None:
-    hotel = await hotel_service.get_hotel(hotel_id)
-    if not hotel:
-        raise HTTPException(status_code=404, detail="Hotel not found")
     await hotel_service.delete_hotel(hotel_id)
     return Response(status_code=204, content=None)
