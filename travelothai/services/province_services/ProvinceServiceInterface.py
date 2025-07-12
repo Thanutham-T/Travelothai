@@ -1,16 +1,17 @@
 from abc import ABC, abstractmethod
+from typing import List, Optional
 
 from travelothai.schemas import province_schema
 
 
 class ProvinceServiceInterface(ABC):
     @abstractmethod
-    def list_provinces(self) -> list[province_schema.Province]:
+    def list_provinces(self) -> List[province_schema.Province]:
         """List all provinces."""
         pass
 
     @abstractmethod
-    def get_province(self, province_id: int) -> province_schema.Province:
+    def get_province(self, province_id: int) -> Optional[province_schema.Province]:
         """Get a specific province by ID."""
         pass
 
@@ -20,7 +21,7 @@ class ProvinceServiceInterface(ABC):
         pass
 
     @abstractmethod
-    def update_province(self, province_id: int, province: province_schema.ProvinceUpdate) -> province_schema.Province:
+    def update_province(self, province_id: int, province: province_schema.ProvinceUpdate) -> Optional[province_schema.Province]:
         """Update an existing province."""
         pass
 
