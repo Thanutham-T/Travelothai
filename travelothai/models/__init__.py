@@ -7,6 +7,8 @@ from sqlalchemy.orm import sessionmaker
 
 # Import models after setting up the database components
 from .province_model import *
+from .hotel_model import *
+from .ticket_model import *
 
 connect_args = {"check_same_thread": False}
 
