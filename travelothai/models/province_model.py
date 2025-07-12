@@ -6,7 +6,7 @@ from travelothai.schemas.hotel_schema import Hotel
 
 # ProvinceCategory model
 class ProvinceCategoryBase(SQLModel):
-    name: str
+    name: str = Field(index=True, unique=True)
 
 class ProvinceCategory(ProvinceCategoryBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -19,7 +19,7 @@ class ProvinceCategory(ProvinceCategoryBase, table=True):
 
 # Province model
 class ProvinceBase(SQLModel):
-    name: str = Field(index=True)
+    name: str = Field(index=True, unique=True)
     category_id: int = Field(foreign_key="provincecategory.id")
 
 class Province(ProvinceBase, table=True):
