@@ -4,6 +4,7 @@ from sqlmodel import SQLModel, Field, Relationship
 
 if TYPE_CHECKING:
     from .province_model import ProvinceCategory
+    from .booking_model import Booking
 
 # TicketType schema
 class TicketTypeBase(SQLModel):
@@ -55,6 +56,7 @@ class Ticket(TicketBase, table=True):
     # Relationships
     ticket_type: Optional["TicketType"] = Relationship(back_populates="tickets")
     campaign: Optional["TicketCampaign"] = Relationship(back_populates="tickets")
+    bookings: List["Booking"] = Relationship(back_populates="ticket")
 
 
 # TicketCampaign schema

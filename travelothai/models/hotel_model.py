@@ -1,9 +1,10 @@
 from datetime import datetime
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, List, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship
 
 if TYPE_CHECKING:
     from .province_model import Province
+    from .booking_model import Booking
 
 # Hotel model
 class HotelBase(SQLModel):
@@ -18,3 +19,4 @@ class Hotel(HotelBase, table=True):
 
     # Relationship
     province: Optional["Province"] = Relationship(back_populates="hotels")
+    bookings: List["Booking"] = Relationship(back_populates="hotel")
