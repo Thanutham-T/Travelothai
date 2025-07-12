@@ -8,6 +8,7 @@ from travelothai.models import hotel_model, province_model
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
+
 class DBHotelService(HotelServiceInterface):
     def __init__(self, session: AsyncSession):
         self.session = session
