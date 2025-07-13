@@ -1,9 +1,21 @@
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
 
-app = FastAPI()
+from . import routers
+from . import models
 
-@app.get("/")
+
+app = FastAPI(title="TraveloThai API", version="1.0.0")
 
 
-def read_hello():
-    return {"Hello": "World"}
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Initialize the database
+    await models.init_db()
+    yield
+    # Close the database connection
+    await models.close_db()
+
+
+app = FastAPI(title="TraveloThai API", version="1.0.0", lifespan=lifespan)
+app.include_router(routers.router)
